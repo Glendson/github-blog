@@ -9,37 +9,38 @@ import {
 } from "./styles";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faBuilding, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { useGithubAPI } from "../../../hooks/useGithub";
 
 export function Profile() {
+  const { userData } = useGithubAPI();
+
   return (
     <ProfileContainer>
-      <Avatar src="" alt="" />
+      <Avatar src={userData?.avatar_url} alt="" />
       <ProfileDescription>
         <ProfileHeader>
-          <h1>Cameron Williamson</h1>
+          <h1>{userData?.name}</h1>
 
-          <a href="">Github</a>
+          <a href={userData?.html_url}>Github</a>
         </ProfileHeader>
         <ProfileBio>
-          <span>
-            Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-            viverra massa quam dignissim aenean malesuada suscipit. Nunc,
-            volutpat pulvinar vel mass.
-          </span>
+          <span>{userData?.bio}</span>
         </ProfileBio>
 
         <ProfileInfo>
           <div>
             <FontAwesomeIcon icon={faGithub} />
-            <span>cameronwll</span>
+            <span>{userData?.login}</span>
           </div>
-          <div>
-            <FontAwesomeIcon icon={faBuilding} />
-            <span>Rocketseat</span>
-          </div>
+          {userData?.company && (
+            <div>
+              <FontAwesomeIcon icon={faBuilding} />
+              <span>{userData.company}</span>
+            </div>
+          )}
           <div>
             <FontAwesomeIcon icon={faUserGroup} />
-            <span>32 seguidores</span>
+            <span>{userData?.followers}</span>
           </div>
         </ProfileInfo>
       </ProfileDescription>
