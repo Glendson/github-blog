@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Avatar,
+  HeaderLink,
   ProfileBio,
   ProfileContainer,
   ProfileDescription,
@@ -8,8 +9,12 @@ import {
   ProfileInfo,
 } from "./styles";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faBuilding, faUserGroup } from "@fortawesome/free-solid-svg-icons";
-import { useGithubAPI } from "../../../hooks/useGithub";
+import {
+  faArrowUpRightFromSquare,
+  faBuilding,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
+import { useGithubAPI } from "../../../../hooks/useGithub";
 
 export function Profile() {
   const { userData } = useGithubAPI();
@@ -21,7 +26,15 @@ export function Profile() {
         <ProfileHeader>
           <h1>{userData?.name}</h1>
 
-          <a href={userData?.html_url}>Github</a>
+          <>
+            {userData?.html_url && (
+              <HeaderLink to={userData.html_url}>
+                <span>Github</span>
+                {"   "}
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+              </HeaderLink>
+            )}
+          </>
         </ProfileHeader>
         <ProfileBio>
           <span>{userData?.bio}</span>
@@ -40,7 +53,7 @@ export function Profile() {
           )}
           <div>
             <FontAwesomeIcon icon={faUserGroup} />
-            <span>{userData?.followers}</span>
+            <span>{userData?.followers} seguidores</span>
           </div>
         </ProfileInfo>
       </ProfileDescription>
