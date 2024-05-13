@@ -1,22 +1,48 @@
+import { useContext } from "react";
 import { PostCard } from "./components/PostCard";
 import { Profile } from "./components/Profile";
-import { HomeContainer, HomeInputContent, HomeSearch } from "./styles";
+import { HomeContainer, HomeSearch, PostContainer } from "./styles";
+import { BlogContext } from "../../contexts/BlogContext";
+import { Search } from "./components/Search";
 
-export function Home(){
-    return (
-        <HomeContainer>
-            <Profile />
 
-            <HomeSearch>
-                <div>
-                    <h2>Publicações</h2>
+export function Home() {
+  const { issuesData } = useContext(BlogContext);
 
-                    <span>6 publicações</span>
-                </div>
-            <HomeInputContent type="text" placeholder="Buscar conteúdo"/>
-            </HomeSearch>
 
-            <PostCard />
-        </HomeContainer>
-    )
+  if (!issuesData) {
+    return <div>Carregando...</div>;
+  }
+
+  return (
+    <HomeContainer>
+      <Profile />
+
+      <HomeSearch>
+        <div>
+          <h2>Publicações</h2>
+
+          <span>{issuesData.length} publicações</span>
+        </div>
+
+        <Search
+          type="text"
+          placeholder="Buscar conteúdo"          
+        />
+      </HomeSearch>
+      <PostContainer>
+        {issuesData.map((issue) => {
+          return (
+            <PostCard
+              number={issue.number}
+              key={issue.number}
+              title={issue.title}
+              date={issue.created_at}
+              body={issue.body}
+            />
+          );
+        })}
+      </PostContainer>
+    </HomeContainer>
+  );
 }

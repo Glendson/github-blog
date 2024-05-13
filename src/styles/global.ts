@@ -20,7 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     body, input, textarea, button, span {
-        font-family: 'Nunito Sans', sans-serif;
+        font-family: Nunito, sans-serif;
     }
 
 `;

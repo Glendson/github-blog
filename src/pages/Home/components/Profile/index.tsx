@@ -14,10 +14,11 @@ import {
   faBuilding,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
-import { useGithubAPI } from "../../../../hooks/useGithub";
+import { useContext } from "react";
+import { BlogContext } from "../../../../contexts/BlogContext";
 
 export function Profile() {
-  const { userData } = useGithubAPI();
+  const { userData } = useContext(BlogContext);
 
   return (
     <ProfileContainer>
