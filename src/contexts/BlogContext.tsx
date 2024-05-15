@@ -11,20 +11,24 @@ export interface UserData {
   avatar_url: string;
 }
 
-export interface IssueData {
+export interface IssuesData {
   url: string;
   body: string;
   title: string;
   number: number;
-  comments: string;
+  comments: string[];
   html_url: string;
   created_at: string;
+  user: {
+    login: string;
+    html_url: string;
+  };
 }
 
 interface BlogContextType {
   userData: UserData;
-  issuesData: IssueData[];
-  searchIssues: (text: string) => IssueData[];
+  issuesData: IssuesData[];
+  searchIssues: (text: string) => IssuesData[];
   loadIssuesData: (query?: string) => Promise<void>;
 }
 
@@ -36,7 +40,7 @@ interface BlogProviderProps {
 
 export function BlogProvider({ children }: BlogProviderProps) {
   const [userData, setUserData] = useState<UserData>({} as UserData);
-  const [issuesData, setIssuesData] = useState<IssueData[]>([]);
+  const [issuesData, setIssuesData] = useState<IssuesData[]>([]);
 
   async function loadUserData() {
     const response = await api.get<UserData>("/users/Glendson");
@@ -44,7 +48,7 @@ export function BlogProvider({ children }: BlogProviderProps) {
   }
 
   async function loadIssuesData(query?: string) {
-    const response = await api.get<IssueData[]>(
+    const response = await api.get<IssuesData[]>(
       "/repos/Glendson/github-blog/issues",
       {
         params: {

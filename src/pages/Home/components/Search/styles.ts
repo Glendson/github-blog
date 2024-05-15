@@ -21,6 +21,7 @@ export const SearchFormContainer = styled.form`
 
     &:focus {
       border-color: ${(props) => props.theme.blue};
+      background: ${(props) => props.theme["base-input"]};
     }
   }
 `;
