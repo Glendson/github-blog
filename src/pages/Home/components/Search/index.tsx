@@ -16,6 +16,7 @@ interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export function Search({ placeholder }: SearchProps) {
+
   const { register, handleSubmit } = useForm<SearchFormInput>({
     resolver: zodResolver(searchFormSchema),
   });

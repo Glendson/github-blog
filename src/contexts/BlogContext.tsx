@@ -25,6 +25,13 @@ export interface IssuesData {
   };
 }
 
+interface ApiResponse {
+  total_count: number;
+  incomplete_results: boolean;
+  items: IssuesData[];
+}
+
+
 interface BlogContextType {
   userData: UserData;
   issuesData: IssuesData[];
@@ -48,16 +55,25 @@ export function BlogProvider({ children }: BlogProviderProps) {
   }
 
   async function loadIssuesData(query?: string) {
-    const response = await api.get<IssuesData[]>(
-      "/repos/Glendson/github-blog/issues",
-      {
-        params: {
-          q: query,
-        },
+    try {
+      let response;
+      if (query) {
+        response = await api.get<ApiResponse>(
+          `/search/issues?q=${query}%20repo:Glendson/github-blog`
+        );
+        setIssuesData(response.data.items);
+      } else {
+        response = await api.get<IssuesData[]>(
+          "/repos/Glendson/github-blog/issues"
+        );
+        setIssuesData(response.data);
       }
-    );
-    setIssuesData(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error("Error loading issues:", error);
+    }
   }
+  
 
   useEffect(() => {
     loadUserData();
